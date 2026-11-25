@@ -1,0 +1,109 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --ink: #141414;
+  --pink: #e0115f;
+  --lime: #c8f23a;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-paper text-ink font-sans antialiased;
+    font-size: 16px;
+    line-height: 1.55;
+    overflow-x: hidden;
+  }
+  ::selection { background: var(--lime); color: var(--ink); }
+  h1, h2, h3 {
+    @apply font-display uppercase;
+    font-weight: 400;
+    letter-spacing: -0.005em;
+    line-height: 0.92;
+  }
+  /* accent words in headlines: a wonky highlighter swipe, not coloured italics */
+  h1 i, h2 i, h3 i {
+    font-style: normal;
+    background-image: linear-gradient(transparent 52%, var(--lime) 52%, var(--lime) 92%, transparent 92%);
+    background-size: 100% 100%;
+    padding: 0 0.06em;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+  .font-hand { line-height: 1; }
+  :focus-visible {
+    outline: 3px solid var(--pink);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+  input, select, textarea { font-size: 16px; }
+}
+
+@layer components {
+  .btn {
+    @apply relative inline-flex min-h-[50px] items-center justify-center gap-2 rounded-full px-7 py-3 text-[15px] font-bold
+      transition-[transform,background-color,color] duration-200 active:scale-[0.96] disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn-ink { @apply btn bg-ink text-white hover:-rotate-2 hover:bg-cherry; }
+  .btn-cherry { @apply btn bg-cherry text-white hover:-rotate-2 hover:bg-ink; }
+  .btn-ghost { @apply btn border-2 border-ink bg-transparent text-ink hover:rotate-2 hover:bg-lime; }
+  .chip {
+    @apply inline-flex min-h-[40px] items-center gap-1.5 rounded-full border-2 border-ink/15 bg-white px-4 py-1.5 text-sm font-semibold transition-colors duration-150 hover:border-ink;
+  }
+  .chip[data-active="true"] { @apply border-ink bg-ink text-white; }
+  .sticker {
+    @apply inline-flex items-center rounded-full border-2 border-ink bg-white px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-ink;
+  }
+  .field {
+    @apply w-full rounded-2xl border-2 border-ink/15 bg-white px-4 py-3 text-ink placeholder:text-ink/40
+      outline-none transition focus:border-ink focus:ring-4 focus:ring-lime/60;
+  }
+  .field[aria-invalid="true"] { @apply border-cherry bg-petal; }
+  .label { @apply mb-1.5 block text-xs font-bold uppercase tracking-wider text-cocoa; }
+  .card { @apply rounded-[28px] border-2 border-ink/10 bg-cream; }
+  .eyebrow { @apply font-hand text-[30px] normal-case leading-none tracking-normal text-cherry; }
+  .scribble {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 14' preserveAspectRatio='none'%3E%3Cpath d='M3 9 C 30 3, 60 13, 95 6 S 160 2, 197 9' stroke='%23E0115F' stroke-width='4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: 100% 0.3em;
+    background-position: 0 100%;
+  }
+  .gold-text {
+    background: linear-gradient(100deg, #8a5a12, #d9a441 30%, #f6e2a8 45%, #b98a2e 60%, #8a5a12);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    @apply animate-shimmer;
+  }
+  /* masking tape strip for polaroids */
+  .tape {
+    @apply absolute h-7 w-24 bg-butter/80;
+    clip-path: polygon(2% 10%, 98% 0, 100% 90%, 0 100%);
+  }
+  /* Anton has no italic – never let the browser fake one */
+  .font-display.italic, h1.italic, h2.italic, h3.italic, h1 .italic, h2 .italic { font-style: normal; }
+  .arch { border-radius: 999px 999px 24px 24px; }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { scrollbar-width: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media print {
+  header, footer, nav, .no-print { display: none !important; }
+  body { background: #fff; }
+}
